@@ -2,13 +2,24 @@ const mongoose = require('mongoose');
 const customers = require('./customers');
 const CustomerDetails = require('../models/customer');
 const TransactionDetails = require('../models/transaction');
-mongoose.connect('mongodb://127.0.0.1:27017/bank')
+
+
+if((process.env.NODE_ENV!=="production")){
+    require('dotenv').config({ path: '../.env' });
+}
+
+const dbUrl=process.env.DB_URL
+// require('dotenv').config({ path: '../.env' }); // Adjust the path as needed
+
+
+mongoose.connect(dbUrl)
     .then(() => {
         console.log('mongoose connected');
     })
     .catch((e) => {
         console.log(e);
     });
+
 
 
 
