@@ -5,12 +5,15 @@ const ejsMate = require('ejs-mate')
 const app = express()
 
 app.engine('ejs',ejsMate)
-
+if((process.env.NODE_ENV!=="production")){
+    require('dotenv').config();
+}
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
-
-mongoose.connect('mongodb://127.0.0.1:27017/bank')
+const dbUrl=process.env.DB_URL
+//'mongodb://127.0.0.1:27017/bank'
+mongoose.connect(dbUrl)
     .then(() => {
         console.log('mongoose connected');
     })
